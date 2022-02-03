@@ -20,7 +20,8 @@ class StuffTicketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ticket
-        fields = ['type', 'status', 'created_time', 'title', 'description', 'user', 'updated_time', 'admin_comment', 'messages']
+        fields = ['type', 'status', 'created_time', 'title', 'description', 'user', 'updated_time',
+                  'admin_comment', 'messages']
 
 
 class ClientTicketSerializer(serializers.ModelSerializer):
