@@ -102,40 +102,6 @@ WSGI_APPLICATION = 'supp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'supp',
-        'USER': 'akarpovich',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'HOST': 'db',
-#         'PORT': '5432',
-#     }
-# }
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'HOST': os.environ.get('DB_HOST'),
-#         'NAME': os.environ.get('DB_NAME'),
-#         'USER': os.environ.get('DB_USER'),
-#         'PASSWORD': os.environ.get('DB_PASS'),
-#     }
-# }
-
-
-DATABASES = {
-    'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('POSTGRES_NAME'),
         'USER': os.environ.get('POSTGRES_USER'),
@@ -192,7 +158,7 @@ DJOSER = {
     # 'ACTIVATION_URL': '#/activate/{uid}/{token}',
     # 'SEND_ACTIVATION_EMAIL': True,
     'SERIALIZERS': {
-        'user_create': 'api.serializers.MyUserCreateSerializer',
         # ПЕРЕОПРЕДЕЛЯЕМ СЕРИАЛИЗАТОР СОЗДАНИЯ ЮЗЕРА, ЧТОБЫ СДЕЛАТЬ ПОЛЕ EMAIL ОБЯЗАТЕЛЬНЫМ
+        'user_create': 'api.serializers.MyUserCreateSerializer',
     },
 }
