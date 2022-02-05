@@ -19,9 +19,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+
     'djoser',
+
     'tickets.apps.TicketsConfig',
     'api.apps.ApiConfig',
 
@@ -31,8 +34,12 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
 
     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',),
+
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 20
+    'PAGE_SIZE': 20,
+
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+
 
 }
 

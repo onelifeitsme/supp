@@ -28,7 +28,7 @@ def access_jwt_token_client(db, client, new_user_client):
         "username": new_user_client.username,
         "password": '123456'
     }
-    url = 'http://127.0.0.1:8000/auth/jwt/create/'
+    url = 'http://127.0.0.1:8000/api-auth/jwt/create/'
 
     response = client.post(url, data=data)
     access_token = response.data['access']
@@ -42,7 +42,7 @@ def access_jwt_token_staff(db, client, new_user_staff):
         "username": new_user_staff.username,
         "password": '123456'
     }
-    url = 'http://127.0.0.1:8000/auth/jwt/create/'
+    url = 'http://127.0.0.1:8000/api-auth/jwt/create/'
 
     response = client.post(url, data=data)
     access_token = response.data['access']
