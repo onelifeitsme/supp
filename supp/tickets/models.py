@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
-# статусы тикетов
 from rest_framework.reverse import reverse
 
+
+# статусы тикетов
 statuses = [
     ('В очереди', 'В очереди'),
     ('Принят в работу', 'Принят в работу'),
