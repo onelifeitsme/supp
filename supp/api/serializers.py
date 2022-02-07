@@ -18,7 +18,7 @@ class MessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Message
-        fields = ['created_time', 'user', 'text']
+        fields = ('created_time', 'user', 'text')
 
 
 class StuffTicketSerializer(serializers.ModelSerializer):
@@ -28,8 +28,8 @@ class StuffTicketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ticket
-        fields = ['type', 'status', 'created_time', 'title', 'description', 'user', 'updated_time',
-                  'admin_comment', 'messages']
+        fields = ('type', 'status', 'created_time', 'title', 'description', 'user', 'updated_time',
+                  'admin_comment', 'messages')
 
 
 class ClientTicketSerializer(serializers.ModelSerializer):
@@ -38,7 +38,7 @@ class ClientTicketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ticket
-        fields = ['type', 'status', 'user', 'created_time', 'title', 'description', 'updated_time']
+        fields = ('type', 'status', 'user', 'created_time', 'title', 'description', 'updated_time')
 
 
 class MyUserCreateSerializer(UserCreateSerializer):
