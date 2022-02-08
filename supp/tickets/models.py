@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from rest_framework.reverse import reverse
-
+from api.tasks import task_send_about_new_ticket_status
 
 # статусы тикетов
 statuses = [
@@ -37,6 +37,11 @@ class Ticket(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        if self.status != 'В очереди':
+            task_send_about_new_ticket_status.delay(self.user.email, self.status)
+        super(Ticket, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('single_ticket', kwargs={'pk': self.pk})
