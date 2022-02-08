@@ -5,12 +5,11 @@ from rest_framework.generics import RetrieveUpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from tickets.models import Message, Ticket
-
 from .serializers import (ClientTicketSerializer, MessageSerializer,
                           StuffTicketSerializer)
 from .service import is_spamer
 from rest_framework.generics import ListCreateAPIView
-from .permissions import OnlyOwnObjects, IsNotSpamer
+from .permissions import OnlyOwnObjects
 
 
 class TicketsAPIView(ContextMixin, ListCreateAPIView):
@@ -55,18 +54,21 @@ class SingleTicketAPIView(RetrieveUpdateAPIView):
 
 class TicketMessagesAPIView(ListCreateAPIView):
     """Представление сообщений конкретного тикета"""
-    permission_classes = (IsAuthenticated, OnlyOwnObjects)
+    permission_classes = (IsAuthenticated,)
     serializer_class = MessageSerializer
-    queryset = Message.objects.all()
 
-    # def get_queryset(self, *args, **kwargs):
-    #     return Message.objects.filter(ticket_id=self.kwargs['pk'])
+    def get_queryset(self, *args, **kwargs):
+        request_ticket = Ticket.objects.get(pk=self.kwargs['pk'])
+        if self.request.user.is_staff is True or request_ticket.user == self.request.user:
+            """Если юзер - сотрудник или запрашиваемый тикет ялвяется тикетом юзера"""
+            return Message.objects.filter(ticket_id=self.kwargs['pk'])
+        return Message.objects.filter(ticket_id=self.kwargs['pk'], user=self.request.user)
 
-    def post(self, request, pk):
-        serializer = self.get_serializer_class(request)(data=request.data)
-        if serializer.is_valid():
-            serializer.validated_data['user'] = request.user
-            serializer.validated_data['ticket_id'] = pk
-            serializer.save()
-            return Response({'Сообщение отправлено': serializer.data})
-        return Response(serializer.errors)
+    def perform_create(self, serializer, *args, **kwargs):
+        serializer.save(user=self.request.user, ticket_id=self.kwargs['pk'])
+
+    def post(self, request, *args, **kwargs):
+        if is_spamer(self.get_queryset()) is True and request.user.is_staff is False:
+            """Если больше 3 сообщений подряд и юзер не сотрудник"""
+            return Response('Дождитесь ответа от администрации')
+        return self.create(request, *args, **kwargs)
