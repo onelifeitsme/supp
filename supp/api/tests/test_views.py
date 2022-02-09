@@ -31,7 +31,7 @@ def test_create_new_ticket(db, client, access_jwt_token_client):
     client = APIClient()
     client.credentials(HTTP_AUTHORIZATION='Bearer ' + access_jwt_token_client)
     response = client.post(path=url, data=data)
-    assert 'Новый тикет успешно создан' in response.data
+    assert response.status_code == 201
 
 
 def test_aliens_tickets_visibility(db, client, new_user_staff, new_user_client, access_jwt_token_client):
@@ -72,7 +72,7 @@ def test_write_ticket_message(db, client, new_ticket, access_jwt_token_client):
     data = {"text": "some text"}
 
     response = client.post(path=url, data=data)
-    assert 'Сообщение отправлено' in response.data
+    assert response.status_code == 201
 
 
 def test_is_spamer(client, new_ticket, access_jwt_token_client):
